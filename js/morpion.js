@@ -15,6 +15,7 @@ const morpion = {
 
   /**
    * set the target element to append the game and start the game
+   *
    * @param {string} targetElem - target css selector
    */
   init(targetElem) {
@@ -103,8 +104,8 @@ const morpion = {
   checkEndGame() {
     if (morpion.checkVictory()) {
       morpion.endGame(`Le ${morpion.getPlayerName()} a gagné !`);
-    } else {
-      morpion.checkGridFilled();
+    } else if (morpion.checkGridFilled()) {
+      morpion.endGame("Match nul !");
     }
   },
 
@@ -147,12 +148,12 @@ const morpion = {
 
   /**
    * check if all cells are filled
+   *
+   * @returns {boolean} - true if all cells are filled
    */
   checkGridFilled() {
     // check if all cells are filled
-    if (!morpion.cells.includes(null)) {
-      morpion.endGame("Match nul !");
-    }
+    return morpion.cells.every(cell => cell !== null);
   },
 
   /**
