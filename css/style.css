@@ -28,7 +28,7 @@ h1 {
 
 .cell {
   position: relative;
-  border: 1px solid black;
+  border: 1px dashed black;
   width: 100px;
   height: 100px;
 }
@@ -78,7 +78,8 @@ h1 {
   border: none;
   padding: 1rem;
   border-radius: 0.5rem;
-  background-color: #0fa;
+  background-color: rgb(48, 127, 101);
+  color: white;
   text-transform: uppercase;
   font-weight: bolder;
 }

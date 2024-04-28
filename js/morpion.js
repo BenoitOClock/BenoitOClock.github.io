@@ -13,8 +13,9 @@ const morpion = {
     [2, 4, 6],
   ],
 
-  init() {
-    document.body.appendChild(morpion.createStartGameButton("Jouer"));
+  init(targetElem) {
+    morpion.targetElem = document.querySelector(targetElem);
+    morpion.targetElem.appendChild(morpion.createStartGameButton("Jouer"));
   },
 
   startGame() {
@@ -105,11 +106,13 @@ const morpion = {
   },
 
   endGame(message) {
+    // disable board
     morpion.board.removeEventListener("click", morpion.onCellClick);
+    // display message and button
     const messageElem = morpion.createMessage(message);
     const btnElement = morpion.createStartGameButton("Rejouer");
-    document.body.appendChild(messageElem);
-    document.body.appendChild(btnElement);
+    morpion.targetElem.appendChild(messageElem);
+    morpion.targetElem.appendChild(btnElement);
   },
 
   createMessage(message) {
@@ -128,4 +131,4 @@ const morpion = {
   },
 };
 
-morpion.init();
+morpion.init("body");
