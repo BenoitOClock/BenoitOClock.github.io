@@ -1,6 +1,9 @@
 "use strict";
 
 const morpion = {
+  board: document.getElementById("board"),
+  cells: new Array(9).fill(null),
+  currentPlayer: "player1",
   victoryConditions: [
     [0, 1, 2],
     [3, 4, 5],
@@ -11,27 +14,28 @@ const morpion = {
     [0, 4, 8],
     [2, 4, 6],
   ],
-  cells: new Array(9).fill(null),
-  currentPlayer: "player1",
 
   init() {
-    const board = document.getElementById("board");
-    board.addEventListener("click", morpion.onCellClick);
-    morpion.generateCells();
+    morpion.board.addEventListener("click", morpion.onCellClick);
+    morpion.generateBoard();
   },
 
-  generateCells() {
-    const board = document.getElementById("board");
-    board.innerHTML = "";
+  generateBoard() {
+    morpion.board.innerHTML = "";
     morpion.cells.forEach((value, index) => {
-      const cell = document.createElement("div");
-      cell.dataset.index = index;
-      cell.classList.add("cell");
-      if (value !== null) {
-        cell.classList.add(value);
-      }
-      board.appendChild(cell);
+      const cell = morpion.createCell(index, value);
+      morpion.board.appendChild(cell);
     });
+  },
+
+  createCell(index, cellClass) {
+    const cell = document.createElement("div");
+    cell.dataset.index = index;
+    cell.classList.add("cell");
+    if (cellClass) {
+      cell.classList.add(cellClass);
+    }
+    return cell;
   },
 
   onCellClick(event) {
@@ -40,7 +44,7 @@ const morpion = {
       const index = cell.dataset.index;
       if (morpion.cells[index] === null) {
         morpion.cells[index] = morpion.currentPlayer;
-        morpion.generateCells();
+        morpion.generateBoard();
         morpion.checkEndGame();
         morpion.switchPlayer();
       }
@@ -85,7 +89,6 @@ const morpion = {
   },
 
   showMessage(message) {
-    document.querySelectorAll(".message").forEach(element => element.remove());
     const messageElement = document.createElement("p");
     messageElement.classList.add("message");
     messageElement.textContent = message;
@@ -93,8 +96,7 @@ const morpion = {
   },
 
   disableBoard() {
-    const board = document.getElementById("board");
-    board.removeEventListener("click", morpion.onCellClick);
+    morpion.board.removeEventListener("click", morpion.onCellClick);
   },
 };
 
