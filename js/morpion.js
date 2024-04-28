@@ -42,6 +42,7 @@ const morpion = {
         morpion.cells[index] = morpion.currentPlayer;
         morpion.generateCells();
         morpion.checkVictory();
+        morpion.checkGridFilled();
         morpion.switchPlayer();
       }
     }
@@ -60,9 +61,30 @@ const morpion = {
         morpion.cells[a] === morpion.cells[b] &&
         morpion.cells[a] === morpion.cells[c]
       ) {
-        alert(`${morpion.currentPlayer} a gagné !`);
+        morpion.showMessage(`${morpion.currentPlayer} a gagné !`);
+        morpion.disableBoard();
       }
     });
+  },
+
+  checkGridFilled() {
+    if (!morpion.cells.includes(null)) {
+      morpion.disableBoard();
+      morpion.showMessage("Match nul !");
+    }
+  },
+
+  showMessage(message) {
+    document.querySelectorAll(".message").forEach(element => element.remove());
+    const messageElement = document.createElement("p");
+    messageElement.classList.add("message");
+    messageElement.textContent = message;
+    document.body.appendChild(messageElement);
+  },
+
+  disableBoard() {
+    const board = document.getElementById("board");
+    board.removeEventListener("click", morpion.onCellClick);
   },
 };
 

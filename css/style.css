@@ -2,23 +2,61 @@
   box-sizing: border-box;
 }
 
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  text-align: center;
+  background-color: darkslategray;
+  color: white;
+}
+
+h3 {
+  text-transform: uppercase;
+}
+
 #board {
-  width: 150px;
-  height: 150px;
+  width: 300px;
+  height: 300px;
   display: flex;
   flex-wrap: wrap;
+  margin: 0 auto;
+  background-color: white;
 }
 
 .cell {
+  position: relative;
   border: 1px solid black;
-  width: 50px;
-  height: 50px;
+  width: 100px;
+  height: 100px;
 }
 
-.player1 {
-  background-color: red;
+.player1:before,
+.player2:before,
+.player2:after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 10px;
 }
 
-.player2 {
-  background-color: blue;
+.player1:before {
+  top: 10px;
+  width: 70px;
+  height: 70px;
+  border-radius: 175px;
+  border: 5px solid black;
+}
+
+.player2:before {
+  top: 50px;
+  width: 80px;
+  height: 5px;
+  background-color: black;
+  transform: rotate(45deg);
+}
+.player2:after {
+  top: 50px;
+  width: 80px;
+  height: 5px;
+  background-color: black;
+  transform: rotate(-45deg);
 }
