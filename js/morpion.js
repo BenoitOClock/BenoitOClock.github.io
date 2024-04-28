@@ -2,8 +2,6 @@
 
 const morpion = {
   board: document.getElementById("board"),
-  cells: new Array(9).fill(null),
-  currentPlayer: "player-1",
   victoryConditions: [
     [0, 1, 2],
     [3, 4, 5],
@@ -16,12 +14,26 @@ const morpion = {
   ],
 
   init() {
+    document.body.appendChild(morpion.createStartGameButton("Jouer"));
+  },
+
+  startGame() {
+    // clean UI
+    document.querySelector(".start-button").remove();
+    document.querySelector(".message")?.remove();
+    // init game variables
+    morpion.cells = new Array(9).fill(null);
+    morpion.currentPlayer = "player-1";
+    // init game UI
     morpion.board.addEventListener("click", morpion.onCellClick);
+    morpion.board.classList.add("active");
     morpion.generateBoard();
   },
 
   generateBoard() {
+    // clean board
     morpion.board.innerHTML = "";
+    // generate cells
     morpion.cells.forEach((value, index) => {
       const cell = morpion.createCell(index, value);
       morpion.board.appendChild(cell);
@@ -40,8 +52,10 @@ const morpion = {
 
   onCellClick(event) {
     const cell = event.target;
+    // check if clcked element is a cell
     if (cell.classList.contains("cell")) {
       const index = cell.dataset.index;
+      // check if cell is empty
       if (morpion.cells[index] === null) {
         morpion.cells[index] = morpion.currentPlayer;
         morpion.generateBoard();
@@ -58,8 +72,7 @@ const morpion = {
 
   checkEndGame() {
     if (morpion.checkVictory()) {
-      morpion.showMessage(`Le ${morpion.getPlayerName()} a gagné !`);
-      morpion.disableBoard();
+      morpion.endGame(`Le ${morpion.getPlayerName()} a gagné !`);
     } else {
       morpion.checkGridFilled();
     }
@@ -87,20 +100,31 @@ const morpion = {
 
   checkGridFilled() {
     if (!morpion.cells.includes(null)) {
-      morpion.disableBoard();
-      morpion.showMessage("Match nul !");
+      morpion.endGame("Match nul !");
     }
   },
 
-  showMessage(message) {
+  endGame(message) {
+    morpion.board.removeEventListener("click", morpion.onCellClick);
+    const messageElem = morpion.createMessage(message);
+    const btnElement = morpion.createStartGameButton("Rejouer");
+    document.body.appendChild(messageElem);
+    document.body.appendChild(btnElement);
+  },
+
+  createMessage(message) {
     const messageElement = document.createElement("p");
     messageElement.classList.add("message");
     messageElement.textContent = message;
-    document.body.appendChild(messageElement);
+    return messageElement;
   },
 
-  disableBoard() {
-    morpion.board.removeEventListener("click", morpion.onCellClick);
+  createStartGameButton(label) {
+    const btnElement = document.createElement("button");
+    btnElement.classList.add("start-button");
+    btnElement.textContent = label;
+    btnElement.addEventListener("click", () => morpion.startGame());
+    return btnElement;
   },
 };
 
