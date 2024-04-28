@@ -13,11 +13,18 @@ const morpion = {
     [2, 4, 6],
   ],
 
+  /**
+   * set the target element to append the game and start the game
+   * @param {string} targetElem - target css selector
+   */
   init(targetElem) {
     morpion.targetElem = document.querySelector(targetElem);
     morpion.targetElem.appendChild(morpion.createStartGameButton("Jouer"));
   },
 
+  /**
+   * start the game
+   */
   startGame() {
     // clean UI
     document.querySelector(".start-button").remove();
@@ -31,6 +38,9 @@ const morpion = {
     morpion.generateBoard();
   },
 
+  /**
+   * generate the game board
+   */
   generateBoard() {
     // clean board
     morpion.board.innerHTML = "";
@@ -41,6 +51,13 @@ const morpion = {
     });
   },
 
+  /**
+   * create a cell element with index and class
+   *
+   * @param {number} index - cell index
+   * @param {string} cellClass  - cell class
+   * @returns {HTMLElement} - cell element
+   */
   createCell(index, cellClass) {
     const cell = document.createElement("div");
     cell.dataset.index = index;
@@ -51,6 +68,12 @@ const morpion = {
     return cell;
   },
 
+  /**
+   * cell click event handler
+   * check if cell is empty and switch player
+   *
+   * @param {Event} event - click event
+   */
   onCellClick(event) {
     const cell = event.target;
     // check if clcked element is a cell
@@ -66,11 +89,17 @@ const morpion = {
     }
   },
 
+  /**
+   * switch player
+   */
   switchPlayer() {
     morpion.currentPlayer =
       morpion.currentPlayer === "player-1" ? "player-2" : "player-1";
   },
 
+  /**
+   * check end game conditions
+   */
   checkEndGame() {
     if (morpion.checkVictory()) {
       morpion.endGame(`Le ${morpion.getPlayerName()} a gagné !`);
@@ -79,10 +108,20 @@ const morpion = {
     }
   },
 
+  /**
+   * get the current player name
+   *
+   * @returns {string} - player name
+   */
   getPlayerName() {
     return morpion.currentPlayer === "player-1" ? "joueur 1" : "joueur 2";
   },
 
+  /**
+   * check victory conditions
+   *
+   * @returns {boolean} - true if victory
+   */
   checkVictory() {
     // https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
     return morpion.victoryConditions.reduce((previous, condition) => {
@@ -106,6 +145,9 @@ const morpion = {
     }, false);
   },
 
+  /**
+   * check if all cells are filled
+   */
   checkGridFilled() {
     // check if all cells are filled
     if (!morpion.cells.includes(null)) {
@@ -113,6 +155,11 @@ const morpion = {
     }
   },
 
+  /**
+   * Terminate the game
+   *
+   * @param {string} message -  end game message
+   */
   endGame(message) {
     // disable board
     morpion.board.removeEventListener("click", morpion.onCellClick);
@@ -123,6 +170,12 @@ const morpion = {
     morpion.targetElem.appendChild(btnElement);
   },
 
+  /**
+   * Create a message element
+   *
+   * @param {string} message - message to display
+   * @returns {HTMLElement} - message element
+   */
   createMessage(message) {
     const messageElement = document.createElement("p");
     messageElement.classList.add("message");
@@ -130,6 +183,12 @@ const morpion = {
     return messageElement;
   },
 
+  /**
+   * Create a start game button
+   *
+   * @param {string} label - button label
+   * @returns {HTMLElement} - button element
+   */
   createStartGameButton(label) {
     const btnElement = document.createElement("button");
     btnElement.classList.add("start-button");
@@ -139,6 +198,7 @@ const morpion = {
   },
 };
 
+// start the game when the DOM is loaded
 document.addEventListener("DOMContentLoaded", () => {
   morpion.init("body");
 });
