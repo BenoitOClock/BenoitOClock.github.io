@@ -3,7 +3,7 @@
 const morpion = {
   board: document.getElementById("board"),
   cells: new Array(9).fill(null),
-  currentPlayer: "player1",
+  currentPlayer: "player-1",
   victoryConditions: [
     [0, 1, 2],
     [3, 4, 5],
@@ -53,16 +53,20 @@ const morpion = {
 
   switchPlayer() {
     morpion.currentPlayer =
-      morpion.currentPlayer === "player1" ? "player2" : "player1";
+      morpion.currentPlayer === "player-1" ? "player-2" : "player-1";
   },
 
   checkEndGame() {
     if (morpion.checkVictory()) {
-      morpion.showMessage(`${morpion.currentPlayer} a gagné !`);
+      morpion.showMessage(`Le ${morpion.getPlayerName()} a gagné !`);
       morpion.disableBoard();
     } else {
       morpion.checkGridFilled();
     }
+  },
+
+  getPlayerName() {
+    return morpion.currentPlayer === "ppayer-1" ? "joueur 1" : "joueur 2";
   },
 
   checkVictory() {
