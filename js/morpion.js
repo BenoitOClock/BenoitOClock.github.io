@@ -84,22 +84,30 @@ const morpion = {
   },
 
   checkVictory() {
+    // https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce
     return morpion.victoryConditions.reduce((previous, condition) => {
+      // check if previous allready found a victory
       if (!previous) {
+        // extract cells indexes
         const [a, b, c] = condition;
+        // check if cells are not empty and have the same value
         if (
           morpion.cells[a] &&
           morpion.cells[a] === morpion.cells[b] &&
           morpion.cells[a] === morpion.cells[c]
         ) {
+          // return true if victory
           return true;
         }
       }
+      // return previous value if no victory
       return previous;
+      // init previous value to false
     }, false);
   },
 
   checkGridFilled() {
+    // check if all cells are filled
     if (!morpion.cells.includes(null)) {
       morpion.endGame("Match nul !");
     }
@@ -131,4 +139,6 @@ const morpion = {
   },
 };
 
-morpion.init("body");
+document.addEventListener("DOMContentLoaded", () => {
+  morpion.init("body");
+});
