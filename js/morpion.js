@@ -41,8 +41,7 @@ const morpion = {
       if (morpion.cells[index] === null) {
         morpion.cells[index] = morpion.currentPlayer;
         morpion.generateCells();
-        morpion.checkVictory();
-        morpion.checkGridFilled();
+        morpion.checkEndGame();
         morpion.switchPlayer();
       }
     }
@@ -53,18 +52,29 @@ const morpion = {
       morpion.currentPlayer === "player1" ? "player2" : "player1";
   },
 
+  checkEndGame() {
+    if (morpion.checkVictory()) {
+      morpion.showMessage(`${morpion.currentPlayer} a gagné !`);
+      morpion.disableBoard();
+    } else {
+      morpion.checkGridFilled();
+    }
+  },
+
   checkVictory() {
-    morpion.victoryConditions.forEach(condition => {
-      const [a, b, c] = condition;
-      if (
-        morpion.cells[a] &&
-        morpion.cells[a] === morpion.cells[b] &&
-        morpion.cells[a] === morpion.cells[c]
-      ) {
-        morpion.showMessage(`${morpion.currentPlayer} a gagné !`);
-        morpion.disableBoard();
+    return morpion.victoryConditions.reduce((previous, condition) => {
+      if (!previous) {
+        const [a, b, c] = condition;
+        if (
+          morpion.cells[a] &&
+          morpion.cells[a] === morpion.cells[b] &&
+          morpion.cells[a] === morpion.cells[c]
+        ) {
+          return true;
+        }
       }
-    });
+      return previous;
+    }, false);
   },
 
   checkGridFilled() {
