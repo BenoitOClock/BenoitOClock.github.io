@@ -66,7 +66,7 @@ const morpion = {
   },
 
   getPlayerName() {
-    return morpion.currentPlayer === "ppayer-1" ? "joueur 1" : "joueur 2";
+    return morpion.currentPlayer === "player-1" ? "joueur 1" : "joueur 2";
   },
 
   checkVictory() {
